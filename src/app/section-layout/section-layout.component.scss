@@ -1,0 +1,45 @@
+:host {
+	display: block;
+}
+
+.section-layout {
+	width: min(100%, 80rem);
+	margin-inline: auto;
+	padding: 0 1.5rem 0 1.25rem;
+	display: grid;
+	grid-template-columns: auto 1fr;
+	column-gap: 1rem;
+	row-gap: 1rem;
+	align-items: start;
+	border-left: 1px solid #e1e3e4;
+}
+
+.section-layout__number {
+	grid-column: 1;
+	display: inline-grid;
+	place-items: center;
+	width: 2rem;
+	height: 2rem;
+	border-radius: 9999px;
+	background: #0058be;
+	color: #ffffff;
+	font-size: 0.95rem;
+	font-weight: 700;
+	line-height: 1;
+}
+
+.section-layout__header {
+	grid-column: 2;
+	margin: 0;
+	align-self: center;
+	color: #191c1d;
+	font-size: clamp(1.75rem, 2vw, 2rem);
+	font-weight: 600;
+	line-height: 0.15;
+	letter-spacing: -0.02em;
+}
+
+.section-layout__body {
+	grid-column: 1 / -1;
+	min-width: 0;
+}
