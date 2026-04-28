@@ -1,0 +1,32 @@
+<section class="selection-section">
+	<div class="selection-section__choices">
+		@for (choice of choices(); track choice.id) {
+			<button
+				type="button"
+				class="choice"
+				[class.choice--selected]="selectedOption().id === choice.id"
+				(click)="selectOption(choice.id)"
+				[attr.aria-pressed]="selectedOption().id === choice.id"
+			>
+				<i [class]="choice.icon" class="choice__icon"></i>
+				<div class="choice__content">
+					<div class="choice__title">{{ choice.title }}</div>
+					<p class="choice__desc">{{ choice.description }}</p>
+				</div>
+			</button>
+		}
+	</div>
+
+	@if (selectedOption().type === 'supervised') {
+		<div class="selection-section__target">
+			<label class="selection-section__label">Select Target Variable</label>
+			<div class="selection-section__control">
+				<select class="target-select">
+					@for (option of targetOptions(); track option.value) {
+						<option [value]="option.value">{{ option.label }}</option>
+					}
+				</select>
+			</div>
+		</div>
+	}
+</section>
