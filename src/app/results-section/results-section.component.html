@@ -1,0 +1,15 @@
+<section class="results-section">
+	<div class="metrics-grid" role="list">
+		@for (metric of metrics(); track metric.label) {
+			<div class="metric-card" role="listitem">
+				<div class="metric-label">{{ metric.label }}</div>
+				<div class="metric-value">{{ metric.value }}</div>
+			</div>
+		}
+	</div>
+
+	<!-- Placeholder for the lower cards (confusion matrix, feature importance) -->
+	<div class="results-panels">
+		<div class="panel metric-label">Confusion Matrix</div>
+	</div>
+</section>

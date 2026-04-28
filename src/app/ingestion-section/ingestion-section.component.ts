@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
-import * as XLSX from 'xlsx';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { FilesService } from '../shared/services/files.service';
+import { dataFilesStore } from '../state/data-files';
 
 interface PreviewData {
 	columns: string[];
@@ -16,6 +17,7 @@ interface PreviewData {
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class IngestionSectionComponent {
+	private readonly filesService = inject(FilesService);
 	private readonly MAX_PREVIEW_ROWS = 5;
 
 	readonly dropHeader = 'Upload Dataset';
@@ -58,7 +60,8 @@ export class IngestionSectionComponent {
 
 		const files = event.dataTransfer?.files;
 		if (files && files.length > 0) {
-			this._handleFile(files[0]);
+			const previewData = this.filesService.handleFile(files[0]);
+			dataFilesStore.setDataFile(files[0]);
 		}
 	}
 
@@ -66,95 +69,9 @@ export class IngestionSectionComponent {
 		const input = event.target as HTMLInputElement;
 		const files = input.files;
 		if (files && files.length > 0) {
-			this._handleFile(files[0]);
+			this.filesService.handleFile(files[0]);
+			dataFilesStore.setDataFile(files[0]);
 		}
-	}
-
-	private _handleFile(file: File): void {
-		const fileExtension = file.name.split('.').pop()?.toLowerCase();
-
-		if (fileExtension === 'csv') {
-			this._handleCSVFile(file);
-		} else if (fileExtension === 'xlsx' || fileExtension === 'xls') {
-			this._handleExcelFile(file);
-		}
-	}
-
-	private _handleCSVFile(file: File): void {
-		const reader = new FileReader();
-
-		reader.onload = (e: ProgressEvent<FileReader>) => {
-			const content = e.target?.result as string;
-			const columns = this.parseCSVColumns(content);
-			const rows = this._parseCSV(content).rows;
-
-			this._previewData.set({
-				columns,
-				rows,
-				fileName: file.name,
-				totalRows: rows.length,
-			});
-		};
-
-		reader.readAsText(file);
-	}
-
-	private _handleExcelFile(file: File): void {
-		const reader = new FileReader();
-
-		reader.onload = (e: ProgressEvent<FileReader>) => {
-			const data = e.target?.result as ArrayBuffer;
-			const workbook = XLSX.read(data, { type: 'array' });
-			const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
-			const jsonData: Record<string, unknown>[] = XLSX.utils.sheet_to_json(firstSheet);
-
-			if (jsonData.length === 0) {
-				return;
-			}
-
-			const columns = Object.keys(jsonData[0]);
-			const rows = jsonData;
-
-			this._previewData.set({
-				columns,
-				rows,
-				fileName: file.name,
-				totalRows: rows.length,
-			});
-		};
-
-		reader.readAsArrayBuffer(file);
-	}
-
-	public readonly parseCSVColumns = (content: string): string[] => {
-		const lines = content.trim().split('\n');
-		if (lines.length === 0) {
-			return [];
-		}
-
-		return lines[0]
-			.split(',')
-			.map((col) => col.trim())
-			.filter((col) => col.length > 0);
-	};
-
-	private _parseCSV(content: string): { columns: string[]; rows: Record<string, unknown>[] } {
-		const lines = content.trim().split('\n');
-		if (lines.length === 0) {
-			return { columns: [], rows: [] };
-		}
-
-		const columns = lines[0].split(',').map((col) => col.trim());
-		const rows = lines.slice(1).map((line) => {
-			const values = line.split(',').map((val) => val.trim());
-			const row: Record<string, unknown> = {};
-			columns.forEach((col, index) => {
-				row[col] = values[index] ?? '';
-			});
-			return row;
-		});
-
-		return { columns, rows };
 	}
 
 	public openFilePicker(fileInput: HTMLInputElement, event?: Event): void {
