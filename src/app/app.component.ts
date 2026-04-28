@@ -5,6 +5,7 @@ import { IngestionSectionComponent } from './ingestion-section/ingestion-section
 import { ResultsSectionComponent } from './results-section/results-section.component';
 import { SectionLayoutComponent } from './section-layout/section-layout.component';
 import { SelectionSectionComponent } from './selection-section/selection-section.component';
+import { ModelTrainingSectionComponent } from './model-training-section/model-training-section.component';
 
 @Component({
 	selector: 'app-root',
@@ -14,6 +15,7 @@ import { SelectionSectionComponent } from './selection-section/selection-section
 		SelectionSectionComponent,
 		ResultsSectionComponent,
 		IngestionSectionComponent,
+		ModelTrainingSectionComponent,
 		ExportSectionComponent,
 	],
 	templateUrl: './app.component.html',
