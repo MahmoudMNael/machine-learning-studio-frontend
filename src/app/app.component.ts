@@ -1,12 +1,11 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component } from '@angular/core';
+import { IngestionSectionComponent } from '../ingestion-section/ingestion-section.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [IngestionSectionComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-export class App {
-  protected readonly title = signal('machine-learning-studio-frontend');
-}
+export class App {}
+
