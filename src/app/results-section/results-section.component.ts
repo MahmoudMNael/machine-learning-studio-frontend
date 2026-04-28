@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { dataFilesStore } from '../state/data-files';
 
 interface Metric {
 	label: string;

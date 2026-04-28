@@ -54,23 +54,35 @@ export class IngestionSectionComponent {
 		this._isDragOverState.set(false);
 	}
 
-	onDrop(event: DragEvent): void {
+	async onDrop(event: DragEvent) {
 		event.preventDefault();
 		this._isDragOverState.set(false);
 
 		const files = event.dataTransfer?.files;
 		if (files && files.length > 0) {
-			const previewData = this.filesService.handleFile(files[0]);
-			dataFilesStore.setDataFile(files[0]);
+			let obj = await this.filesService.handleFile(files[0]);
+			this._previewData.set({
+				columns: obj.columns,
+				rows: obj.rows,
+				fileName: obj.fileName,
+				totalRows: obj.totalRows,
+			});
+			dataFilesStore.setDataFile(files[0], obj.columns);
 		}
 	}
 
-	onFileSelected(event: Event): void {
+	async onFileSelected(event: Event) {
 		const input = event.target as HTMLInputElement;
 		const files = input.files;
 		if (files && files.length > 0) {
-			this.filesService.handleFile(files[0]);
-			dataFilesStore.setDataFile(files[0]);
+			let obj = await this.filesService.handleFile(files[0]);
+			this._previewData.set({
+				columns: obj.columns,
+				rows: obj.rows,
+				fileName: obj.fileName,
+				totalRows: obj.totalRows,
+			});
+			dataFilesStore.setDataFile(files[0], obj.columns);
 		}
 	}
 
@@ -79,7 +91,6 @@ export class IngestionSectionComponent {
 			event.preventDefault();
 			event.stopPropagation();
 		}
-
 		fileInput.click();
 	}
 }

@@ -6,6 +6,7 @@ export interface DataFile {
 	size: number;
 	mimeType: string;
 	file: File;
+	columns: string[];
 }
 
 interface DataFilesStore {
@@ -30,13 +31,14 @@ export const dataFilesStore = {
 	error: () => _store().error,
 
 	// Methods
-	setDataFile: (file: File): DataFile => {
+	setDataFile: (file: File, columns: string[]): DataFile => {
 		const dataFile: DataFile = {
 			id: `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`,
 			name: file.name,
 			size: file.size,
 			mimeType: file.type || 'application/octet-stream',
 			file,
+			columns: columns
 		};
 		_store.update((state) => ({
 			...state,
