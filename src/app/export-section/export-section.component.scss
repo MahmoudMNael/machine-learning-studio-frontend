@@ -1,0 +1,142 @@
+:host {
+	display: block;
+}
+
+.export-section {
+	width: min(100%, 80rem);
+	margin-inline: auto;
+	display: grid;
+	gap: 1rem;
+}
+
+.export-section__header {
+	display: flex;
+	align-items: center;
+	gap: 0.85rem;
+}
+
+.export-section__step {
+	width: 2rem;
+	height: 2rem;
+	display: inline-grid;
+	place-items: center;
+	border-radius: 9999px;
+	background: #0058be;
+	color: #ffffff;
+	font-size: 0.95rem;
+	font-weight: 700;
+	box-shadow: 0 6px 16px rgba(0, 88, 190, 0.16);
+}
+
+.export-section__title {
+	margin: 0;
+	color: #191c1d;
+	font-size: clamp(1.55rem, 2vw, 1.9rem);
+	font-weight: 600;
+	letter-spacing: -0.02em;
+}
+
+.export-section__card {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1.5rem;
+	padding: 1.4rem 1.5rem;
+	background: #ffffff;
+	border: 1px solid #e2e8f0;
+	border-radius: 1rem;
+	box-shadow: 0 4px 12px rgba(30, 41, 59, 0.05);
+}
+
+.export-section__summary {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+	min-width: 0;
+}
+
+.export-section__icon {
+	width: 3.4rem;
+	height: 3.4rem;
+	display: inline-grid;
+	place-items: center;
+	border-radius: 0.9rem;
+	background: #d8e2ff;
+	color: #0058be;
+	font-size: 1.25rem;
+	flex-shrink: 0;
+}
+
+.export-section__copy {
+	min-width: 0;
+}
+
+.export-section__copy h3 {
+	margin: 0;
+	color: #191c1d;
+	font-size: 1.05rem;
+	font-weight: 600;
+	line-height: 1.35;
+}
+
+.export-section__copy p {
+	margin: 0.2rem 0 0;
+	color: #586377;
+	font-size: 0.92rem;
+	line-height: 1.5;
+}
+
+.export-section__actions {
+	display: flex;
+	align-items: center;
+	gap: 0.85rem;
+	flex-shrink: 0;
+}
+
+.export-section__button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.45rem;
+	min-width: 5.25rem;
+	padding: 0.72rem 1rem;
+	border-radius: 0.7rem;
+	border: 1px solid #c2c6d6;
+	background: #ffffff;
+	color: #191c1d;
+	font-size: 0.92rem;
+	cursor: pointer;
+	font-weight: 600;
+	box-shadow: 0 2px 6px rgba(30, 41, 59, 0.05);
+	transition:
+		transform 180ms ease,
+		box-shadow 180ms ease,
+		background-color 180ms ease;
+}
+
+.export-section__button:hover {
+	transform: translateY(-1px);
+	box-shadow: 0 6px 16px rgba(30, 41, 59, 0.08);
+}
+
+.export-section__button--primary {
+	background: #0058be;
+	border-color: #0058be;
+	color: #ffffff;
+}
+
+.export-section__button--secondary {
+	background: #ffffff;
+	color: #191c1d;
+}
+
+@media (max-width: 760px) {
+	.export-section__card {
+		flex-direction: column;
+		align-items: stretch;
+	}
+
+	.export-section__actions {
+		justify-content: flex-end;
+	}
+}
