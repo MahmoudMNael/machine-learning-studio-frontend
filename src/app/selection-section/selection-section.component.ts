@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
+import { dataFilesStore } from '../state/data-files';
 
 interface TaskChoice {
 	id: number;
@@ -46,10 +47,7 @@ export class SelectionSectionComponent {
 		return this.choices().find((choice) => choice.id === id) || this.choices()[0];
 	});
 
-	protected readonly targetOptions = signal([
-		{ value: 'label', label: 'Label (Class)' },
-		{ value: 'target_a', label: 'Target A' },
-	]);
+	protected readonly selectedFile = dataFilesStore.current;
 
 	selectOption(id: number) {
 		this.selectedOptionId.set(id);

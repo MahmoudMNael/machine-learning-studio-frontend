@@ -22,8 +22,8 @@
 			<label class="selection-section__label">Select Target Variable</label>
 			<div class="selection-section__control">
 				<select class="target-select">
-					@for (option of targetOptions(); track option.value) {
-						<option [value]="option.value">{{ option.label }}</option>
+					@for (option of selectedFile()?.columns; track $index) {
+						<option [value]="option">{{ option }}</option>
 					}
 				</select>
 			</div>
