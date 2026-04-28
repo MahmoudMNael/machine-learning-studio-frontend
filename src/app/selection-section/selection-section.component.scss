@@ -1,0 +1,137 @@
+:host {
+	display: block;
+}
+
+.selection-section {
+	display: grid;
+	gap: 2rem;
+}
+
+.selection-section__choices {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 1.25rem;
+}
+
+.choice {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 1rem;
+	padding: 1.75rem;
+	background: #ffffff;
+	border: 2px solid #e2e8f0;
+	border-radius: 1rem;
+	box-shadow: 0 4px 12px rgba(30, 41, 59, 0.04);
+	text-align: left;
+	cursor: pointer;
+	transition: all 200ms ease;
+}
+
+.choice:hover {
+	box-shadow: 0 8px 20px rgba(30, 41, 59, 0.08);
+}
+
+.choice--selected {
+	border-color: #0058be;
+	box-shadow: 0 8px 24px rgba(0, 88, 190, 0.12);
+}
+
+.choice__icon {
+	width: 2.5rem;
+	height: 2.5rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: linear-gradient(135deg, #d8e2ff 0%, #e8f0ff 100%);
+	border-radius: 0.75rem;
+	font-size: 1.5rem;
+
+	&[data-type='classification']::before {
+		content: '👥';
+	}
+
+	&[data-type='regression']::before {
+		content: '📈';
+	}
+
+	&[data-type='clustering']::before {
+		content: '🔗';
+	}
+}
+
+.choice__content {
+	display: flex;
+	flex-direction: column;
+	gap: 0.35rem;
+	width: 100%;
+}
+
+.choice__title {
+	font-weight: 600;
+	color: #191c1d;
+	font-size: 1.3rem;
+	line-height: 1.4;
+}
+
+.choice__desc {
+	margin: 0;
+	color: #727785;
+	font-size: 1rem;
+	line-height: 1.5;
+}
+
+.selection-section__target {
+	background: #ffffff;
+	padding: 1.5rem;
+	border-radius: 1rem;
+	border: 1px solid #e2e8f0;
+	box-shadow: 0 4px 12px rgba(30, 41, 59, 0.04);
+}
+
+.selection-section__label {
+	display: block;
+	color: #424754;
+	font-size: 0.875rem;
+	font-weight: 500;
+	margin-bottom: 0.75rem;
+}
+
+.selection-section__control {
+	position: relative;
+}
+
+.target-select {
+	width: 100%;
+	padding: 0.875rem 1rem;
+	border-radius: 0.75rem;
+	border: 1px solid #e2e8f0;
+	background: #f8f9fa;
+	color: #191c1d;
+	font-size: 0.95rem;
+	appearance: none;
+	padding-right: 2.5rem;
+	cursor: pointer;
+	transition: all 200ms ease;
+
+	&:hover {
+		border-color: #c2c6d6;
+	}
+
+	&:focus {
+		outline: none;
+		border-color: #0058be;
+		box-shadow: 0 0 0 3px rgba(0, 88, 190, 0.1);
+	}
+}
+
+.selection-section__control::after {
+	content: '▼';
+	position: absolute;
+	right: 1rem;
+	top: 50%;
+	transform: translateY(-50%);
+	pointer-events: none;
+	color: #727785;
+	font-size: 0.65rem;
+}

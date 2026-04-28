@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 @Component({
-	selector: 'section-layout',
+	selector: 'app-section-layout',
 	imports: [],
 	templateUrl: './section-layout.component.html',
 	styleUrl: './section-layout.component.scss',
