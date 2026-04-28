@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as XLSX from 'xlsx';
 
-interface PreviewData {
+interface FileParseResult {
 	columns: string[];
 	rows: Record<string, unknown>[];
 	fileName: string;
@@ -12,92 +12,111 @@ interface PreviewData {
 	providedIn: 'root',
 })
 export class FilesService {
-	public handleFile(file: File): PreviewData {
+	public async handleFile(file: File): Promise<FileParseResult> {
 		const fileExtension = file.name.split('.').pop()?.toLowerCase();
-		let obj;
+		let obj 
+
 		if (fileExtension === 'csv') {
 			obj = this._handleCSVFile(file);
-		} else if (fileExtension === 'xlsx' || fileExtension === 'xls') {
+			return await obj;
+		}
+
+		if (fileExtension === 'xlsx' || fileExtension === 'xls') {
 			obj = this._handleExcelFile(file);
+			return await obj;
 		}
 
-		return obj;
-	}
-
-	private _handleCSVFile(file: File): PreviewData {
-		const reader = new FileReader();
-
-		reader.onload = (e: ProgressEvent<FileReader>) => {
-			const content = e.target?.result as string;
-			const columns = this.parseCSVColumns(content);
-			const rows = this._parseCSV(content).rows;
-
-			return {
-				columns,
-				rows,
-				fileName: file.name,
-				totalRows: rows.length,
-			};
+		return {
+			columns: [],
+			rows: [],
+			fileName: '',
+			totalRows: 0,
 		};
-
-		reader.readAsText(file);
 	}
 
-	private _handleExcelFile(file: File): PreviewData {
-		const reader = new FileReader();
+	private _handleCSVFile(file: File): Promise<FileParseResult> {
+		return new Promise<FileParseResult>((resolve, reject) => {
+			const reader = new FileReader();
 
-		reader.onload = (e: ProgressEvent<FileReader>) => {
-			const data = e.target?.result as ArrayBuffer;
-			const workbook = XLSX.read(data, { type: 'array' });
-			const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
-			const jsonData: Record<string, unknown>[] = XLSX.utils.sheet_to_json(firstSheet);
+			reader.onload = () => {
+				const data = String(reader.result ?? '');
+				const rows = data
+					.split('\n')
+					.map((row) => row.trim())
+					.filter((row) => row.length > 0);
 
-			if (jsonData.length === 0) {
-				return;
-			}
+				if (rows.length === 0) {
+					resolve({
+						columns: [],
+						rows: [],
+						fileName: file.name,
+						totalRows: 0,
+					});
+					return;
+				}
 
-			const columns = Object.keys(jsonData[0]);
-			const rows = jsonData;
+				const headers = rows[0].split(',').map((header) => header.trim());
+				const parsedRows = rows.slice(1).map((row) => {
+					const values = row.split(',').map((value) => value.trim());
+					const rowObj: Record<string, unknown> = {};
+					headers.forEach((header, index) => {
+						rowObj[header] = values[index] ?? null;
+					}
+					);
+					return rowObj;
+				});
 
-			return {
-				columns,
-				rows,
-				fileName: file.name,
-				totalRows: rows.length,
+				resolve({
+					columns: headers,
+					rows: parsedRows,
+					fileName: file.name,
+					totalRows: parsedRows.length,
+				});
 			};
-		};
 
-		reader.readAsArrayBuffer(file);
-	}
-
-	public readonly parseCSVColumns = (content: string): string[] => {
-		const lines = content.trim().split('\n');
-		if (lines.length === 0) {
-			return [];
-		}
-
-		return lines[0]
-			.split(',')
-			.map((col) => col.trim())
-			.filter((col) => col.length > 0);
-	};
-
-	private _parseCSV(content: string): { columns: string[]; rows: Record<string, unknown>[] } {
-		const lines = content.trim().split('\n');
-		if (lines.length === 0) {
-			return { columns: [], rows: [] };
-		}
-
-		const columns = lines[0].split(',').map((col) => col.trim());
-		const rows = lines.slice(1).map((line) => {
-			const values = line.split(',').map((val) => val.trim());
-			const row: Record<string, unknown> = {};
-			columns.forEach((col, index) => {
-				row[col] = values[index] ?? '';
-			});
-			return row;
+			reader.onerror = () => reject(reader.error);
+			reader.readAsText(file);
 		});
+	}
 
-		return { columns, rows };
+	private async _handleExcelFile(file: File): Promise<FileParseResult> {
+		return new Promise<FileParseResult>((resolve, reject) => {
+			const reader = new FileReader();
+
+			reader.onload = () => {
+				const data = new Uint8Array(reader.result as ArrayBuffer);
+				const workbook = XLSX.read(data, { type: 'array' });
+				const sheet = workbook.Sheets[workbook.SheetNames[0]];
+				const result: FileParseResult = {
+					columns: [],
+					rows: [],
+					fileName: file.name,
+					totalRows: 0,
+				};
+
+				const rows = XLSX.utils.sheet_to_json(sheet, { header: 1 }) as unknown[][];
+				result.totalRows = rows.length;
+
+				const headers = rows[0] as string[];
+				result.columns = headers;
+
+				for (let i = 1; i < rows.length; i++) {
+					const row = rows[i];
+					const rowObj: Record<string, unknown> = {};
+					headers.forEach((header, index) => {
+						rowObj[header] = row[index] ?? null;
+					}
+					);
+					result.rows.push(rowObj);
+				}
+
+				resolve(result);
+			};
+
+			reader.onerror = () => reject(reader.error);
+			reader.readAsArrayBuffer(file);
+		},);
 	}
 }
+
+
