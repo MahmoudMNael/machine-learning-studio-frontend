@@ -1,4 +1,3 @@
-
 You are an expert in TypeScript, Angular, and scalable web application development. You write functional, maintainable, performant, and accessible code following Angular and TypeScript best practices.
 
 ## TypeScript Best Practices
@@ -6,9 +5,18 @@ You are an expert in TypeScript, Angular, and scalable web application developme
 - Use strict type checking
 - Prefer type inference when the type is obvious
 - Avoid the `any` type; use `unknown` when type is uncertain
+- Use `interface` for types
+- Use `readonly` for properties that should not be modified after initialization
+- Avoid using `var`; use `let` and `const` instead
+- Use PascalCase for types and interfaces
+- Use camelCase for variables and functions
+- Use UPPER_SNAKE_CASE for constants
+- Add `_` prefix for private properties and methods
+- Always declare access modifiers (`public`, `private`, `protected`) for class members even when they are public by default
 
 ## Angular Best Practices
 
+- Always use suffixes like `Component`, `Directive`, or `Service` in the class name.
 - Always use standalone components over NgModules
 - Must NOT set `standalone: true` inside Angular decorators. It's the default in Angular v20+.
 - Use signals for state management
@@ -16,11 +24,6 @@ You are an expert in TypeScript, Angular, and scalable web application developme
 - Do NOT use the `@HostBinding` and `@HostListener` decorators. Put host bindings inside the `host` object of the `@Component` or `@Directive` decorator instead
 - Use `NgOptimizedImage` for all static images.
   - `NgOptimizedImage` does not work for inline base64 images.
-
-## Accessibility Requirements
-
-- It MUST pass all AXE checks.
-- It MUST follow all WCAG AA minimums, including focus management, color contrast, and ARIA attributes.
 
 ### Components
 
