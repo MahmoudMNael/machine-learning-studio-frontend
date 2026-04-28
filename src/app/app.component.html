@@ -1,12 +1,17 @@
 <main>
 	<app-hero-section />
 	<div class="spacer"></div>
-	// TODO: Add sections here, e.g. Data Ingestion, Model Training, etc.
-	<section-layout sectionNumber="1" sectionHeader="Data Ingestion">
+	<!-- TODO: Add sections here, e.g. Data Ingestion, Model Training, etc. -->
+	<app-section-layout sectionNumber="1" sectionHeader="Data Ingestion">
 		<p>
 			Upload your datasets in various formats (CSV, JSON, Parquet) and let our system automatically
 			detect the schema and prepare it for analysis.
 		</p>
-	</section-layout>
-	// TODO: Use the spacer div to add more space between sections.
+	</app-section-layout>
+	<!-- TODO: Use the spacer div to add more space between sections. -->
+	<div class="spacer"></div>
+	<app-section-layout sectionNumber="2" sectionHeader="Task Selection">
+		<app-selection-section />
+	</app-section-layout>
+	<div class="spacer"></div>
 </main>
