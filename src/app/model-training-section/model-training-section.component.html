@@ -1,0 +1,57 @@
+<section class="training-section">
+	<div class="training-container">
+		<h2 class="section-title">Model Training</h2>
+		<p class="section-description">
+			Upload your dataset to start training the machine learning model.
+		</p>
+
+		<form [formGroup]="trainingForm" class="training-form">
+			<div class="file-upload-area">
+				<div class="file-input-wrapper">
+					<input
+						#fileInput
+						type="file"
+						formControlName="file"
+						accept=".csv,.json,.xlsx"
+						(change)="onFileSelected($event)"
+						class="file-input"
+						[disabled]="isLoading()"
+					/>
+					<label for="fileInput" class="file-label">
+						<span class="upload-icon">📁</span>
+						<span class="upload-text">
+							{{ selectedFileName() || 'Choose a file or drag and drop' }}
+						</span>
+						<span class="upload-hint">CSV, JSON, or XLSX files supported</span>
+					</label>
+				</div>
+			</div>
+
+			<button
+				type="submit"
+				(click)="onSubmit()"
+				class="submit-button"
+				[disabled]="trainingForm.invalid || isLoading()"
+			>
+				@if (isLoading()) {
+					<span class="spinner"></span>
+					Training in progress...
+				} @else {
+					Start Training
+				}
+			</button>
+		</form>
+
+		@if (isSuccess()) {
+			<div class="status-message success">
+				<span class="status-icon">✓</span>
+				{{ statusMessage() }}
+			</div>
+		} @else if (isError()) {
+			<div class="status-message error">
+				<span class="status-icon">✕</span>
+				{{ statusMessage() }}
+			</div>
+		}
+	</div>
+</section>
