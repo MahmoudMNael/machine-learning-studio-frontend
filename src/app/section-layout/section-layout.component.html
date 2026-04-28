@@ -1,0 +1,7 @@
+<section class="section-layout" [attr.aria-labelledby]="headerId">
+	<div class="section-layout__number" aria-hidden="true">{{ sectionNumber() }}</div>
+	<h2 class="section-layout__header" [id]="headerId">{{ sectionHeader() }}</h2>
+	<div class="section-layout__body">
+		<ng-content />
+	</div>
+</section>
