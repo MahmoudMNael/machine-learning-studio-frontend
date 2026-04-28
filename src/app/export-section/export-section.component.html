@@ -1,0 +1,27 @@
+<section class="export-section">
+	<div class="export-section__card">
+		<div class="export-section__summary">
+			<div class="export-section__icon">
+				<i class="pi pi-box"></i>
+			</div>
+			<div class="export-section__copy">
+				<h3>Save Trained Model</h3>
+				<p>Export your optimized model for production deployment.</p>
+			</div>
+		</div>
+
+		<div class="export-section__actions">
+			@for (format of exportFormats; track format.label) {
+				<button
+					type="button"
+					class="export-section__button"
+					[class.export-section__button--primary]="format.variant === 'primary'"
+					[class.export-section__button--secondary]="format.variant === 'secondary'"
+				>
+					<i class="pi pi-download"></i>
+					<span>{{ format.label }}</span>
+				</button>
+			}
+		</div>
+	</div>
+</section>
