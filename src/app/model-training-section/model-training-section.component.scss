@@ -1,230 +1,233 @@
-.training-section {
-    padding: 2rem 1.5rem;
-}
+// .training-section {
+// 	padding: 2rem 1.5rem;
+// }
 
-.training-container {
-    max-width: 860px;
-    margin: 0 auto;
-}
+// .training-container {
+//     max-width: 860px;
+//     margin: 0 auto;
+// }
 
 .section-header {
-    display: flex;
-    align-items: center;
-    gap: 0.85rem;
-    margin-bottom: 1rem;
+	display: flex;
+	align-items: center;
+	gap: 0.85rem;
+	margin-bottom: 1rem;
 }
 
 .section-badge {
-    width: 2rem;
-    height: 2rem;
-    border-radius: 999px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background: #2563eb;
-    color: #ffffff;
-    font-size: 0.95rem;
-    font-weight: 700;
-    flex: 0 0 auto;
+	width: 2rem;
+	height: 2rem;
+	border-radius: 999px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	background: #2563eb;
+	color: #ffffff;
+	font-size: 0.95rem;
+	font-weight: 700;
+	flex: 0 0 auto;
 }
 
 .section-title {
-    font-size: 2rem;
-    font-weight: 700;
-    line-height: 1.2;
-    color: #111827;
-    margin: 0;
+	font-size: 2rem;
+	font-weight: 700;
+	line-height: 1.2;
+	color: #111827;
+	margin: 0;
 }
 
 .training-card {
-    background: #ffffff;
-    border: 1px solid #e5e7eb;
-    border-radius: 16px;
-    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
-    padding: 2rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1.25rem;
-    text-align: center;
+	background: #ffffff;
+	border: 1px solid #e5e7eb;
+	border-radius: 16px;
+	box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+	padding: 2rem;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 1.25rem;
+	text-align: center;
 }
 
 .section-description {
-    margin: 0;
-    color: #6b7280;
-    font-size: 0.98rem;
-    line-height: 1.5;
-    max-width: 42rem;
+	margin: 0;
+	color: #6b7280;
+	font-size: 0.98rem;
+	line-height: 1.5;
+	max-width: 42rem;
 }
 
 .selected-file {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.35rem;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.35rem;
 }
 
 .selected-file-label {
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: #6b7280;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
+	font-size: 0.85rem;
+	font-weight: 600;
+	color: #6b7280;
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
 }
 
 .selected-file-name {
-    font-size: 1rem;
-    font-weight: 600;
-    color: #111827;
-    word-break: break-word;
+	font-size: 1rem;
+	font-weight: 600;
+	color: #111827;
+	word-break: break-word;
 }
 
 .selected-file-name--empty {
-    color: #9ca3af;
-    font-weight: 500;
+	color: #9ca3af;
+	font-weight: 500;
 }
 
 .submit-button {
-    min-width: 180px;
-    padding: 0.9rem 1.6rem;
-    border: none;
-    border-radius: 12px;
-    background: #2563eb;
-    color: #ffffff;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    box-shadow: 0 10px 24px rgba(37, 99, 235, 0.22);
-    transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+	min-width: 180px;
+	padding: 0.9rem 1.6rem;
+	border: none;
+	border-radius: 12px;
+	background: #2563eb;
+	color: #ffffff;
+	font-size: 1rem;
+	font-weight: 600;
+	cursor: pointer;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.5rem;
+	box-shadow: 0 10px 24px rgba(37, 99, 235, 0.22);
+	transition:
+		transform 0.2s ease,
+		box-shadow 0.2s ease,
+		opacity 0.2s ease;
 
-    &:not(:disabled):hover {
-        transform: translateY(-1px);
-        box-shadow: 0 12px 28px rgba(37, 99, 235, 0.28);
-    }
+	&:not(:disabled):hover {
+		transform: translateY(-1px);
+		box-shadow: 0 12px 28px rgba(37, 99, 235, 0.28);
+	}
 
-    &:disabled {
-        opacity: 0.6;
-        cursor: not-allowed;
-        box-shadow: none;
-    }
+	&:disabled {
+		opacity: 0.6;
+		cursor: not-allowed;
+		box-shadow: none;
+	}
 }
 
 .spinner {
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    border: 2px solid rgba(255, 255, 255, 0.35);
-    border-top-color: #ffffff;
-    animation: spin 0.8s linear infinite;
+	width: 16px;
+	height: 16px;
+	border-radius: 50%;
+	border: 2px solid rgba(255, 255, 255, 0.35);
+	border-top-color: #ffffff;
+	animation: spin 0.8s linear infinite;
 }
 
 .progress-section {
-    width: 100%;
-    max-width: 520px;
-    display: flex;
-    flex-direction: column;
-    gap: 0.6rem;
+	width: 100%;
+	max-width: 520px;
+	display: flex;
+	flex-direction: column;
+	gap: 0.6rem;
 }
 
 .progress-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: #374151;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+	font-size: 0.95rem;
+	font-weight: 600;
+	color: #374151;
 }
 
 .progress-value {
-    color: #2563eb;
+	color: #2563eb;
 }
 
 .progress-bar {
-    width: 100%;
-    height: 10px;
-    border-radius: 999px;
-    overflow: hidden;
-    background: #e5e7eb;
+	width: 100%;
+	height: 10px;
+	border-radius: 999px;
+	overflow: hidden;
+	background: #e5e7eb;
 }
 
 .progress-fill {
-    height: 100%;
-    border-radius: 999px;
-    background: linear-gradient(90deg, #2563eb 0%, #1d4ed8 100%);
-    transition: width 0.25s ease;
+	height: 100%;
+	border-radius: 999px;
+	background: linear-gradient(90deg, #2563eb 0%, #1d4ed8 100%);
+	transition: width 0.25s ease;
 }
 
 .progress-note {
-    margin: 0;
-    font-size: 0.9rem;
-    font-style: italic;
-    color: #6b7280;
+	margin: 0;
+	font-size: 0.9rem;
+	font-style: italic;
+	color: #6b7280;
 }
 
 .status-message {
-    width: 100%;
-    max-width: 520px;
-    padding: 0.9rem 1rem;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    font-size: 0.95rem;
-    text-align: left;
+	width: 100%;
+	max-width: 520px;
+	padding: 0.9rem 1rem;
+	border-radius: 12px;
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+	font-size: 0.95rem;
+	text-align: left;
 }
 
 .status-message--success {
-    background: #dcfce7;
-    color: #166534;
-    border: 1px solid #86efac;
+	background: #dcfce7;
+	color: #166534;
+	border: 1px solid #86efac;
 }
 
 .status-message--error {
-    background: #fee2e2;
-    color: #991b1b;
-    border: 1px solid #fca5a5;
+	background: #fee2e2;
+	color: #991b1b;
+	border: 1px solid #fca5a5;
 }
 
 .status-icon {
-    font-weight: 700;
-    width: 1.25rem;
-    text-align: center;
-    flex: 0 0 auto;
+	font-weight: 700;
+	width: 1.25rem;
+	text-align: center;
+	flex: 0 0 auto;
 }
 
 @keyframes spin {
-    to {
-        transform: rotate(360deg);
-    }
+	to {
+		transform: rotate(360deg);
+	}
 }
 
 @media (max-width: 640px) {
-    .training-section {
-        padding: 1rem;
-    }
+	.training-section {
+		padding: 1rem;
+	}
 
-    .training-card {
-        padding: 1.25rem;
-    }
+	.training-card {
+		padding: 1.25rem;
+	}
 
-    .section-title {
-        font-size: 1.5rem;
-    }
+	.section-title {
+		font-size: 1.5rem;
+	}
 
-    .submit-button {
-        width: 100%;
-        max-width: 100%;
-    }
+	.submit-button {
+		width: 100%;
+		max-width: 100%;
+	}
 
-    .progress-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.25rem;
-    }
+	.progress-header {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 0.25rem;
+	}
 }
