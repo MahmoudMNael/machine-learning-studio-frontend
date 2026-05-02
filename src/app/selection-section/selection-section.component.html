@@ -4,9 +4,9 @@
 			<button
 				type="button"
 				class="choice"
-				[class.choice--selected]="selectedOption().id === choice.id"
-				(click)="selectOption(choice.id)"
-				[attr.aria-pressed]="selectedOption().id === choice.id"
+				[class.choice--selected]="selectedOption().taskType === choice.taskType"
+				(click)="selectOption(choice.taskType)"
+				[attr.aria-pressed]="selectedOption().taskType === choice.taskType"
 			>
 				<i [class]="choice.icon" class="choice__icon"></i>
 				<div class="choice__content">
@@ -17,11 +17,16 @@
 		}
 	</div>
 
-	@if (selectedOption().type === 'supervised') {
+	@if (selectedTaskType() !== 'clustering') {
 		<div class="selection-section__target">
 			<label class="selection-section__label">Select Target Variable</label>
 			<div class="selection-section__control">
-				<select class="target-select">
+				<select
+					class="target-select"
+					[value]="selectedTargetColumn() ?? ''"
+					(change)="selectTargetColumn($event)"
+				>
+					<option value="" disabled>Select target column</option>
 					@for (option of selectedFile()?.columns; track $index) {
 						<option [value]="option">{{ option }}</option>
 					}

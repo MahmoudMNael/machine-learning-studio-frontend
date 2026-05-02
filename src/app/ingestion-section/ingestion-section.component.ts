@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { FilesService } from '../shared/services/files.service';
 import { dataFilesStore } from '../state/data-files';
+import { sessionStore } from '../state/session';
+import { trainingConfigStore } from '../state/training-config';
 
 interface PreviewData {
 	columns: string[];
@@ -67,7 +69,9 @@ export class IngestionSectionComponent {
 				fileName: obj.fileName,
 				totalRows: obj.totalRows,
 			});
+			sessionStore.clear();
 			dataFilesStore.setDataFile(files[0], obj.columns);
+			trainingConfigStore.setTargetColumn(null);
 		}
 	}
 
@@ -82,7 +86,9 @@ export class IngestionSectionComponent {
 				fileName: obj.fileName,
 				totalRows: obj.totalRows,
 			});
+			sessionStore.clear();
 			dataFilesStore.setDataFile(files[0], obj.columns);
+			trainingConfigStore.setTargetColumn(null);
 		}
 	}
 

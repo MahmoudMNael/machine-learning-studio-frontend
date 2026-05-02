@@ -1,58 +1,73 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import {
+	ChangeDetectionStrategy,
+	Component,
+	computed,
+	DestroyRef,
+	effect,
+	inject,
+} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { dataFilesStore } from '../state/data-files';
-import { FileUploadService } from './services/file.serices';
-
-type TrainingStatus = 'idle' | 'success' | 'error';
+import { sessionStore, Status } from '../state/session';
+import { trainingConfigStore } from '../state/training-config';
+import { DatasetsService } from './services/datasets.service';
 
 @Component({
-    selector: 'app-model-training-section',
-    imports: [],
-    templateUrl: './model-training-section.component.html',
-    styleUrl: './model-training-section.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush,
+	selector: 'app-model-training-section',
+	imports: [],
+	templateUrl: './model-training-section.component.html',
+	styleUrl: './model-training-section.component.scss',
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ModelTrainingSectionComponent {
-    public readonly dataFile = dataFilesStore.current;
-    public readonly isTraining = signal(false);
-    public readonly trainingProgress = signal(0);
-    public readonly trainingStatus = signal<TrainingStatus>('idle');
-    public readonly trainingStatusMessage = signal('');
+	private readonly datasetsService = inject(DatasetsService);
+	public readonly dataFile = dataFilesStore.current;
+	protected readonly selectedTaskType = trainingConfigStore.taskType;
+	protected readonly selectedTargetColumn = trainingConfigStore.targetColumn;
 
-    private _trainingTimerId: ReturnType<typeof setInterval> | undefined;
+	protected readonly isInProgress = computed(() => sessionStore.status() == Status.InProgress);
 
-    public trainModel(): void {
-        const dataFile = this.dataFile();
-		if (!dataFile) {
-			this.trainingStatus.set('error');
-			this.trainingStatusMessage.set('No data file selected for training.');
+	public trainModel(): void {
+		const file = this.dataFile();
+
+		if (!file) {
 			return;
 		}
 
-		this.isTraining.set(true);
-		this.trainingProgress.set(0);
-		this.trainingStatus.set('idle');
-		this.trainingStatusMessage.set('Training in progress...');
+		this.datasetsService
+			.uploadDatasetAndStartSession(file, this.selectedTaskType(), this.selectedTargetColumn())
+			.subscribe({
+				error: (error: unknown) => {
+					sessionStore.setError(
+						error instanceof Error ? error.message : 'Failed to start training',
+					);
+				},
+			});
+	}
 
-		FileUploadService.prototype.uploadDataFile(dataFile).subscribe({	
-			next: (event) => {
-				if (event.type === 1 && event.total) {
-					const progress = Math.round((event.loaded / event.total) * 100);
-					this.trainingProgress.set(progress);
-				} else if (event.type === 4) {
-					this.finishTraining();
-				}
-			}
-		});
-    }
+	private readonly _destroyRef = inject(DestroyRef);
+	private _activePollingSessionId: string | null = null;
 
-    private finishTraining(): void {
-        if (this._trainingTimerId) {
-            clearInterval(this._trainingTimerId);
-            this._trainingTimerId = undefined;
-        }
+	private readonly _watchSessionForPolling = effect(() => {
+		const currentSession = sessionStore.current();
+		const status = sessionStore.status();
 
-        this.isTraining.set(false);
-        this.trainingStatus.set('success');
-        this.trainingStatusMessage.set(`Training completed for ${this.dataFile()?.name ?? 'the selected file'}.`);
-    }
+		console.log(status);
+
+		if (!currentSession || status !== Status.InProgress) {
+			this._activePollingSessionId = null;
+			return;
+		}
+
+		if (this._activePollingSessionId === currentSession.sessionId) {
+			return;
+		}
+
+		this._activePollingSessionId = currentSession.sessionId;
+
+		this.datasetsService
+			.pollAndSetResult(currentSession.sessionId)
+			.pipe(takeUntilDestroyed(this._destroyRef))
+			.subscribe();
+	});
 }

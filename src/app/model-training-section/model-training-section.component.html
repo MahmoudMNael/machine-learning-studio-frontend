@@ -3,69 +3,19 @@
 		<div class="training-card">
 			<p class="section-description">Train a model using the uploaded dataset.</p>
 
-			<div class="selected-file">
-				<span class="selected-file-label">Selected file</span>
-
-				@if (dataFile(); as file) {
-					<span class="selected-file-name">{{ file.name }}</span>
-				} @else {
-					<span class="selected-file-name selected-file-name--empty">No data file selected</span>
-				}
-			</div>
-
 			<button
 				type="button"
 				class="submit-button"
 				(click)="trainModel()"
-				[disabled]="!dataFile() || isTraining()"
+				[disabled]="isInProgress()"
 			>
-				@if (isTraining()) {
+				@if (isInProgress()) {
 					<span class="spinner" aria-hidden="true"></span>
 					<span>Training...</span>
 				} @else {
 					<span>Train Model</span>
 				}
 			</button>
-
-			@if (isTraining()) {
-				<div class="progress-section" aria-label="Training progress">
-					<div class="progress-header">
-						<span>Training in progress...</span>
-						<span class="progress-value">{{ trainingProgress() }}%</span>
-					</div>
-
-					<div
-						class="progress-bar"
-						role="progressbar"
-						aria-valuemin="0"
-						aria-valuemax="100"
-						[attr.aria-valuenow]="trainingProgress()"
-					>
-						<div class="progress-fill" [style.width.%]="trainingProgress()"></div>
-					</div>
-
-					<p class="progress-note">Optimizing hyperparameters for the selected dataset...</p>
-				</div>
-			}
-
-			@if (trainingStatusMessage()) {
-				<div
-					class="status-message"
-					[class.status-message--success]="trainingStatus() === 'success'"
-					[class.status-message--error]="trainingStatus() === 'error'"
-					role="status"
-					aria-live="polite"
-				>
-					<span class="status-icon" aria-hidden="true">
-						@if (trainingStatus() === 'success') {
-							✓
-						} @else {
-							!
-						}
-					</span>
-					<span>{{ trainingStatusMessage() }}</span>
-				</div>
-			}
 		</div>
 	</div>
 </section>

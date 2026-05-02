@@ -1,12 +1,13 @@
 import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
 import { dataFilesStore } from '../state/data-files';
+import { TaskType, trainingConfigStore } from '../state/training-config';
 
 interface TaskChoice {
 	id: number;
 	title: string;
 	description: string;
 	icon: string;
-	type: 'supervised' | 'unsupervised';
+	taskType: TaskType;
 }
 
 @Component({
@@ -22,34 +23,44 @@ export class SelectionSectionComponent {
 			title: 'Classification',
 			description: 'Predict discrete categories or classes.',
 			icon: 'pi pi-tags',
-			type: 'supervised',
+			taskType: 'classification',
 		},
 		{
 			id: 2,
 			title: 'Regression',
 			description: 'Predict continuous numerical values.',
 			icon: 'pi pi-chart-line',
-			type: 'supervised',
+			taskType: 'regression',
 		},
 		{
 			id: 3,
 			title: 'Clustering',
 			description: 'Group similar data points together.',
 			icon: 'pi pi-share-alt',
-			type: 'unsupervised',
+			taskType: 'clustering',
 		},
 	]);
 
-	private readonly selectedOptionId = signal<number>(1);
-
 	protected readonly selectedOption = computed(() => {
-		const id = this.selectedOptionId();
-		return this.choices().find((choice) => choice.id === id) || this.choices()[0];
+		const taskType = trainingConfigStore.taskType();
+		return this.choices().find((choice) => choice.taskType === taskType) || this.choices()[0];
 	});
 
 	protected readonly selectedFile = dataFilesStore.current;
+	protected readonly selectedTaskType = trainingConfigStore.taskType;
+	protected readonly selectedTargetColumn = trainingConfigStore.targetColumn;
 
-	selectOption(id: number) {
-		this.selectedOptionId.set(id);
+	selectOption(taskType: TaskType): void {
+		trainingConfigStore.setTaskType(taskType);
+		if (taskType === 'clustering') {
+			dataFilesStore.setTargetColumn(null);
+		}
+	}
+
+	selectTargetColumn(event: Event): void {
+		const selectElement = event.target as HTMLSelectElement;
+		const targetColumn = selectElement.value || null;
+		trainingConfigStore.setTargetColumn(targetColumn);
+		dataFilesStore.setTargetColumn(targetColumn);
 	}
 }

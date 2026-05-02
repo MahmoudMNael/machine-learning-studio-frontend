@@ -1,15 +1,21 @@
 <section class="results-section">
 	<div class="metrics-grid" role="list">
-		@for (metric of metrics(); track metric.label) {
+		@for (metric of metricEntries(); track metric.key) {
 			<div class="metric-card" role="listitem">
-				<div class="metric-label">{{ metric.label }}</div>
-				<div class="metric-value">{{ metric.value }}</div>
+				<div class="metric-label">{{ metric.key.toUpperCase() }}</div>
+				<div class="metric-value">
+					@if (isInteger(metric.value)) {
+						{{ metric.value }}
+					} @else {
+						{{ metric.value | number: '1.4-4' }}
+					}
+				</div>
 			</div>
 		}
 	</div>
 
 	<!-- Placeholder for the lower cards (confusion matrix, feature importance) -->
-	<div class="results-panels">
+	<!-- <div class="results-panels">
 		<div class="panel metric-label">Confusion Matrix</div>
-	</div>
+	</div> -->
 </section>

@@ -17,9 +17,10 @@
 					class="export-section__button"
 					[class.export-section__button--primary]="format.variant === 'primary'"
 					[class.export-section__button--secondary]="format.variant === 'secondary'"
+					(click)="download(format.label)"
 				>
 					<i class="pi pi-download"></i>
-					<span>{{ format.label }}</span>
+					<span>.{{ format.label }}</span>
 				</button>
 			}
 		</div>

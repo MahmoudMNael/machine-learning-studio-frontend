@@ -1,23 +1,24 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
-import { dataFilesStore } from '../state/data-files';
-
-interface Metric {
-	label: string;
-	value: string | number;
-}
+import { DecimalPipe } from '@angular/common';
+import { ChangeDetectionStrategy, Component, computed } from '@angular/core';
+import { sessionStore } from '../state/session';
 
 @Component({
+	imports: [DecimalPipe],
 	selector: 'app-results-section',
-	imports: [],
 	templateUrl: './results-section.component.html',
 	styleUrl: './results-section.component.scss',
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ResultsSectionComponent {
-	protected readonly metrics = signal<Metric[]>([
-		{ label: 'Accuracy', value: 0.94 },
-		{ label: 'Precision', value: 0.91 },
-		{ label: 'Recall', value: 0.96 },
-		{ label: 'F1-Score', value: 0.93 },
-	]);
+	protected readonly metrics = computed<Record<string, number>>(
+		() => sessionStore.current()?.report?.bestModel.metrics ?? {},
+	);
+
+	protected readonly metricEntries = computed(() =>
+		Object.entries(this.metrics()).map(([key, value]) => ({ key, value })),
+	);
+
+	protected isInteger(value: number): boolean {
+		return Number.isInteger(value);
+	}
 }

@@ -7,6 +7,7 @@ export interface DataFile {
 	mimeType: string;
 	file: File;
 	columns: string[];
+	targetColumn: string | null;
 }
 
 interface DataFilesStore {
@@ -31,14 +32,15 @@ export const dataFilesStore = {
 	error: () => _store().error,
 
 	// Methods
-	setDataFile: (file: File, columns: string[]): DataFile => {
+	setDataFile: (file: File, columns: string[], targetColumn: string | null = null): DataFile => {
 		const dataFile: DataFile = {
 			id: `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`,
 			name: file.name,
 			size: file.size,
 			mimeType: file.type || 'application/octet-stream',
 			file,
-			columns: columns
+			columns: columns,
+			targetColumn,
 		};
 		_store.update((state) => ({
 			...state,
@@ -47,6 +49,22 @@ export const dataFilesStore = {
 			error: null,
 		}));
 		return dataFile;
+	},
+
+	setTargetColumn: (targetColumn: string | null): void => {
+		_store.update((state) => {
+			if (!state.current) {
+				return state;
+			}
+
+			return {
+				...state,
+				current: {
+					...state.current,
+					targetColumn,
+				},
+			};
+		});
 	},
 
 	clearDataFile: (): void => {

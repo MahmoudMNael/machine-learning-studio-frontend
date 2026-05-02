@@ -2,7 +2,7 @@
 	<app-hero-section />
 	<div class="spacer"></div>
 	<!-- TODO: Add sections here, e.g. Data Ingestion, Model Training, etc. -->
-	<app-section-layout sectionNumber="1" sectionHeader="Data Ingestion">
+	<app-section-layout id="next-section" sectionNumber="1" sectionHeader="Data Ingestion">
 		<app-ingestion-section />
 	</app-section-layout>
 	<!-- TODO: Use the spacer div to add more space between sections. -->
@@ -11,20 +11,27 @@
 	<app-section-layout sectionNumber="2" sectionHeader="Task Selection">
 		<app-selection-section />
 	</app-section-layout>
-	<div class="spacer"></div>
 
-	<app-section-layout sectionNumber="3" sectionHeader="Model Training">
-		<app-model-training-section />
-	</app-section-layout>
-	<div class="spacer"></div>
+	@if (isFileUploaded()) {
+		<div class="spacer"></div>
 
-	<app-section-layout sectionNumber="4" sectionHeader="Results & Evaluation">
-		<app-results-section />
-	</app-section-layout>
-	<div class="spacer"></div>
+		<app-section-layout sectionNumber="3" sectionHeader="Model Training">
+			<app-model-training-section />
+		</app-section-layout>
+	}
 
-	<app-section-layout sectionNumber="5" sectionHeader="Export Model">
-		<app-export-section />
-	</app-section-layout>
+	@if (isSessionInitialized()) {
+		<div class="spacer"></div>
+
+		<app-section-layout sectionNumber="4" sectionHeader="Results & Evaluation">
+			<app-results-section />
+		</app-section-layout>
+		<div class="spacer"></div>
+
+		<app-section-layout sectionNumber="5" sectionHeader="Export Model">
+			<app-export-section />
+		</app-section-layout>
+	}
+
 	<div class="spacer"></div>
 </main>
