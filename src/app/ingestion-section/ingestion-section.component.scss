@@ -47,6 +47,7 @@
 	border-radius: 12px;
 	border: 1px solid #e0e6ed;
 	padding: 24px;
+	min-width: 0;
 }
 
 .drop-card {
@@ -148,6 +149,7 @@
 	overflow: hidden;
 	display: flex;
 	flex-direction: column;
+	min-width: 0;
 }
 
 .file-info {
@@ -165,12 +167,14 @@
 	overflow-x: auto;
 	border: 1px solid #e0e6ed;
 	border-radius: 6px;
+	min-width: 0;
 }
 
 .data-table {
 	width: 100%;
 	border-collapse: collapse;
 	font-size: 13px;
+	table-layout: auto;
 }
 
 .data-table thead {
@@ -183,7 +187,7 @@
 	font-weight: 600;
 	color: #161b22;
 	border-bottom: 1px solid #e0e6ed;
-	white-space: nowrap;
+	white-space: normal;
 }
 
 .data-table td {

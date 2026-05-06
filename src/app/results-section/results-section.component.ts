@@ -14,6 +14,10 @@ export class ResultsSectionComponent {
 		() => sessionStore.current()?.report?.bestModel.metrics ?? {},
 	);
 
+	protected readonly modelType = computed<string>(
+		() => sessionStore.current()?.report?.bestModel.modelType ?? 'N/A',
+	);
+
 	protected readonly metricEntries = computed(() =>
 		Object.entries(this.metrics()).map(([key, value]) => ({ key, value })),
 	);

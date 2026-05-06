@@ -1,4 +1,11 @@
 <section class="results-section">
+	<div class="results-header">
+		<div class="algorithm-info">
+			<span class="info-label">Algorithm used:</span>
+			<span class="info-value">{{ modelType() }}</span>
+		</div>
+	</div>
+
 	<div class="metrics-grid" role="list">
 		@for (metric of metricEntries(); track metric.key) {
 			<div class="metric-card" role="listitem">

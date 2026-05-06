@@ -7,6 +7,32 @@
 	gap: 1.5rem;
 }
 
+.results-header {
+	display: flex;
+	justify-content: flex-start;
+}
+
+.algorithm-info {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	padding: 8px 16px;
+	background: #f0f7ff;
+	border: 1px solid #cce0ff;
+	border-radius: 8px;
+	font-size: 14px;
+}
+
+.info-label {
+	color: #424754;
+	font-weight: 500;
+}
+
+.info-value {
+	color: #0058be;
+	font-weight: 700;
+}
+
 .metrics-grid {
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
