@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
+import { MessageService } from 'primeng/api';
 import { EMPTY, expand, Observable, switchMap, takeWhile, tap, timer } from 'rxjs';
 import { DataFile } from '../../state/data-files/data-files.store';
 import { Report, sessionStore } from '../../state/session/session.store';
@@ -21,6 +22,7 @@ export interface ResultsResponse {
 })
 export class DatasetsService {
 	private readonly _endpoint = 'http://localhost:8000/api/train';
+	private readonly messageService = inject(MessageService);
 
 	constructor(private readonly http: HttpClient) {}
 
@@ -91,8 +93,23 @@ export class DatasetsService {
 					};
 
 					sessionStore.setResult(mapped);
+					this.messageService.add({
+						severity: 'success',
+						closable: true,
+						sticky: true,
+						summary: 'Training Completed',
+						detail: 'The training session has completed successfully.',
+					});
 				} else if (resp.status === 'resultstatus.failed') {
+					console.log('Training failed:', resp.error_message);
 					sessionStore.setError(resp.error_message ?? 'Training failed');
+					this.messageService.add({
+						severity: 'error',
+						closable: true,
+						sticky: true,
+						summary: 'Training Failed',
+						detail: resp.error_message ?? 'An error occurred during training.',
+					});
 				}
 			}),
 		);

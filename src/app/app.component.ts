@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed } from '@angular/core';
+import { ToastModule } from 'primeng/toast';
 import { ExportSectionComponent } from './export-section/export-section.component';
 import { HeroSectionComponent } from './hero-section/hero-section.component';
 import { IngestionSectionComponent } from './ingestion-section/ingestion-section.component';
@@ -19,6 +20,7 @@ import { Status, sessionStore } from './state/session/session.store';
 		IngestionSectionComponent,
 		ModelTrainingSectionComponent,
 		ExportSectionComponent,
+		ToastModule,
 	],
 	templateUrl: './app.component.html',
 	styleUrl: './app.component.scss',

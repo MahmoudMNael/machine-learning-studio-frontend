@@ -14,7 +14,6 @@ import { DatasetsService } from './services/datasets.service';
 
 @Component({
 	selector: 'app-model-training-section',
-	imports: [],
 	templateUrl: './model-training-section.component.html',
 	styleUrl: './model-training-section.component.scss',
 	changeDetection: ChangeDetectionStrategy.OnPush,
